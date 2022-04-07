@@ -1,16 +1,21 @@
 package com.exqzore.resourceprocessor.service;
 
 import com.exqzore.resourceprocessor.entity.FileMetadata;
+import com.exqzore.resourceprocessor.exception.ParseMP3FileException;
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.Mp3File;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 
 @Service
 public class ProcessorService {
+  private static final Logger logger = LoggerFactory.getLogger(ProcessorService.class);
+  private static final String FILE_PARSE_ERROR = "MP3 file parse error";
 
-  public FileMetadata parseFileMetadata(File file) {
+  public FileMetadata parseFileMetadata(File file) throws ParseMP3FileException {
     try {
       Mp3File mp3file = new Mp3File(file);
       FileMetadata metadata = new FileMetadata();
@@ -24,9 +29,9 @@ public class ProcessorService {
       }
       metadata.setLength(mp3file.getLength());
       return metadata;
-    } catch (Exception ignore) {
-
+    } catch (Exception exception) {
+      logger.error(FILE_PARSE_ERROR, exception);
+      throw new ParseMP3FileException(exception);
     }
-    return null;
   }
 }
