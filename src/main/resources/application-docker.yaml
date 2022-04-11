@@ -1,0 +1,16 @@
+server:
+  port: 8084
+spring:
+  kafka:
+    bootstrap-servers: 'kafka:9092'
+    consumer:
+      group-id: consumer
+
+resource-service:
+  location:
+    url: 'http://resource-service:8082/resources'
+
+
+song-service:
+  location:
+    url: 'http://song-service:8083/songs'

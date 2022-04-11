@@ -15,4 +15,5 @@ public class FileMetadata {
   private String album;
   private Long length;
   private Integer year;
+  private Long resourceId;
 }
